@@ -54,5 +54,23 @@ public class DynamicArray {
         this.data[this.position] = string;
         this.position++;
     } // method add
+
+    public void resize() { // We need to increase the size of the array to accomodate for more elements.
+        String[] newData = new String[this.data.length * 2]; // This creates an array double the size of what we had before. 
+        for (int i = 0; i < this.data.length; i++) { // Add previous array info into this new array using for loop to increment over (each element). 
+            newData[i] = this.data[i]; // Add elements from previous array to current object (content of for loop).
+        }
+
+        this.data = newData; // This makes sure that this.data calls back to the new array we created.
+    }
+
+    public boolean contains(String string) { // Because we're looking for a return of true or false, we have to specify that this type of method will return boolean values. 
+        for (int i = 0; i < this.position; i++) { // For loop to run over each element of the array.
+            if (this.data[i].equals(string)) { // Conditional statement checking whether the element being looked at matches inputted string. 
+                return true; // If there is a match with the inputted string, it will return a true value. 
+            }
+        }
+        return false; // If it can't find a match, false will be returned. 
+    }
     
 } // class DynamicArray
