@@ -98,5 +98,15 @@ public class DynamicArray implements BasicTools {
         return canBeAdded;
     } // method addUnique
 
+     public boolean intersects(DynamicArray other) {
+        int i = 0; //Index begin at start of array. 
+        while (i < this.position) { // Loop through elements of DynamicArray.
+            if (other.contains(this.data[i])) { // Check if the element is present in DynamicArray.
+                return true; // If the same element is present, return true. 
+            }
+            i++; // Makes sure there is an increment over each element. 
+        }
+        return false; // If no elements match, return false. 
+    } // method intersects
     
 } // class DynamicArray
