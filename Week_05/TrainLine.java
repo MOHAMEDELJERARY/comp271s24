@@ -44,4 +44,20 @@ public class TrainLine {
             currentStation.setNext(newStation);
         }
     } // method addStation
+    /**
+     * Check if a station with the specified name exists in the trainline.
+     * 
+     * @param name String with the name of the station to search for
+     * @return true if a station with the specified name exists; false otherwise
+     */
+    public boolean contains(String name) { 
+        Station currentStation = this.head; // Start from the head station
+        while (currentStation != null) { // Incremement over trainline while there are more stations
+            if (currentStation.getName().equals(name)) { // Check if the current station matches the specified named station
+                return true; // Return true if match found
+            }
+            currentStation = currentStation.getNext(); // COntinue to next station
+        }
+        return false; // Return false if no match found
+    }
 }
