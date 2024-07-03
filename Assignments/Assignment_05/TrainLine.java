@@ -140,6 +140,28 @@ public class TrainLine {
 
     /** STUB FOR indexOf */
     public int indexOf(String name) {
+        Station current = this.head; // Start from the head
+        int index = 0; // Index begin at 0
+        while (current != null) { // Traverse the train line
+            if (current.getName().equals(name)) { // Check if current station has specified name
+                return index; // Return index if the station is found
+            }
+            current = current.getNext(); // Go to next station
+            index++; // Increment index
+        }
         return -1;
     } // method indexOf
+
+    public void append(TrainLine other) {
+        if (other != null && other.head != null) { // Check if other TrainLine is not null and not null at head
+            if (this.head == null) { // Check if head is null
+                this.head = other.head; // Set head of TrainLine to head of other TrainLine
+                this.tail = other.tail; // Set tail of TrainLine to tail of other TrainLine
+            } else { // Otherwise
+                this.tail.setNext(other.head); // Set tail of this TrainLine to head of other TrainLine
+                this.tail = other.tail; // Set both tails now to each other
+            }
+            this.numberOfStations += other.getNumberOfStations(); // Update number of stations
+        }
+    } // method append
 }
