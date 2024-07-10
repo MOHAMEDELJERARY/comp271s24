@@ -64,6 +64,7 @@ public class TrainLine {
             // The trainline has an existing head station. Therefore,
             // it also has a known last station (this.tail).
             this.tail.setNext(station); // add new station after tail station
+            station.setPrev(this.tail); // make new station's prev point to the current tail
             this.tail = station; // Designate newly added station as tail station
         }
         // Update station counter
@@ -127,6 +128,10 @@ public class TrainLine {
                     newStation.setNext(current.getNext());
                     // Make the existing station point to the new station
                     current.setNext(newStation);
+                    if (newStation.getNext() != null) {
+                        newStation.getNext().setPrev(newStation); // If the new station is not added at the end, update the prev of the next station
+                    }
+                    newStation.setPrev(current); // Make the new station's prev point to the current station
                     // Update the return variable to indicate a successful insertion
                     success = true;
                 }
@@ -212,6 +217,7 @@ public class TrainLine {
             } else {
                 // otherwise, we point this.tail to other.head ae 
                 this.tail.setNext(other.getHead());
+                other.getHead().setPrev(this.tail); // and the other head's prev to this.tail
             }
             // Either way it's the same tail
             this.tail = other.getTail();
