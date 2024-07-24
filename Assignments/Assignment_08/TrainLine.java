@@ -218,4 +218,60 @@ public class TrainLine {
         }
     } // method append
 
+    /**
+     * Lists all the stations in the train line in order.
+     * 
+     * @return A string with the names of the stations, each on a new line.
+     */
+    public String listStations() {
+        String result = ""; // Initialize result as an empty string
+        if (this.head == null) { // Check if the train line is empty
+            result = "The line is empty."; // Set result to the message if empty
+        } else {
+            Station current = this.head; // Start from the head station
+            while (current != null) { // Traverse until the end of the train line
+                result += current.getName() + "\n"; // Append the station name to result
+                current = current.getNext(); // Move to the next station
+            }
+        }
+        return result; // Return the final result
+    } // method listStations
+
+    /**
+     * Determines if this train line intersects with another train line.
+     * 
+     * @param other The other train line to check for intersections.
+     * @return True if there is an intersection, false otherwise.
+     */
+    public boolean intersects(TrainLine other) {
+        boolean intersectionFound = false; // Initial assumption: no intersection
+        if (this.head != null && other.getHead() != null) { // Check if either train line is empty
+            Station current = this.head; // Start from the head station of this train line
+            while (current != null && !intersectionFound) { // Traverse until the end of the train line or intersection found
+                Station otherCurrent = other.getHead(); // Start from the head station of the other train line
+                while (otherCurrent != null && !intersectionFound) { // Traverse until the end of the other train line or intersection found
+                    if (current.getName().equals(otherCurrent.getName())) { // Check if the station names match
+                        intersectionFound = true; // Intersection found
+                    }
+                    otherCurrent = otherCurrent.getNext(); // Move to the next station in the other train line
+                }
+                current = current.getNext(); // Move to the next station in this train line
+            }
+        }
+        return intersectionFound; // Return the result of the intersection check
+    } // method intersects
+
+    /**
+     * Compares this train line with another train line.
+     * 
+     * @param other The other train line to compare with.
+     * @return A negative value if this train line is smaller, zero if equal, and a positive value if larger.
+     */
+    public int compareTo(TrainLine other) {
+        int thisSize = this.getNumberOfStations(); // Get the number of stations in this train line
+        int otherSize = other.getNumberOfStations(); // Get the number of stations in the other train line
+        int comparisonResult = Integer.compare(thisSize, otherSize); // Compare based on the number of stations
+        return comparisonResult; // Return the result of the comparison
+    } // method compareTo
+    
 } // class TrainLine
