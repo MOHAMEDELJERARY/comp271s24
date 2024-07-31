@@ -3,17 +3,28 @@ public class Hash271 {
     /** Default size for foundation array */
     private static final int DEFAULT_SIZE = 4;
 
+    /** Default load factor threshold */
+    private static final double DEFAULT_THRESHOLD = 0.75; // Default load factor threshold
+
     /** Foundation array of node objects */
     Node[] foundation;
+
+    /** Number of nodes in the foundation */
+    private int nodeCount; // To keep track of the number of nodes
+
+    /** Load factor threshold for resizing */
+    private double threshold;
 
     /** Basic constructor */
     public Hash271(int size) {
         this.foundation = new Node[size];
+        this.nodeCount = 0; // Initialize node count to 0
+        this.threshold = threshold; // Set the threshold
     } // basic constructor
 
     /** Default constructor */
     public Hash271() {
-        this(DEFAULT_SIZE);
+        this(DEFAULT_SIZE, DEFAULT_THRESHOLD); // Use the default size and threshold
     } // default constructor
 
     /**
@@ -46,6 +57,12 @@ public class Hash271 {
             }
             // Put the new node to the array position
             this.foundation[destination] = node;
+            // Increment the node count
+            this.nodeCount++; // Increase node count after adding a node
+            // Check if load factor exceeds threshold and rehash if necessary
+            if ((double) this.nodeCount / this.foundation.length > this.threshold) {
+                this.rehash(); // Rehash if load factor exceeds threshold
+            }
         }
     } // method put
 
@@ -62,6 +79,28 @@ public class Hash271 {
             this.put(node);
         }
     } // method put
+
+    /**
+     * Rehash the structure by doubling the size of the foundation array
+     * and re-distributing all nodes.
+     */
+    private void rehash() {
+        // Create a new foundation array with double the size
+        Node[] newFoundation = new Node[this.foundation.length * 2]; // Double the array size
+        Node[] oldFoundation = this.foundation; // Keep reference to old foundation
+        this.foundation = newFoundation; // Replace current foundation with new one
+        this.nodeCount = 0; // Reset node count before re-adding nodes
+
+        // Move each node from the old foundation to the new one
+        for (Node node : oldFoundation) {
+            while (node != null) {
+                Node nextNode = node.getNext(); // Save reference to next node
+                node.setNext(null); // Clear next node reference before re-inserting
+                this.put(node); // Re-insert node into new foundation
+                node = nextNode; // Move to next node in the chain
+            }
+        }
+    } // method rehash
 
     /** String representation of this object */
     public String toString() {
